@@ -1020,6 +1020,7 @@ namespace NN_PROGLAN
             this.selectedFilePath.Name = "selectedFilePath";
             this.selectedFilePath.Size = new System.Drawing.Size(0, 15);
             this.selectedFilePath.TabIndex = 36;
+            this.selectedFilePath.Visible = false;
             // 
             // testingDatasetFullPathLabel
             // 
@@ -1029,6 +1030,7 @@ namespace NN_PROGLAN
             this.testingDatasetFullPathLabel.Name = "testingDatasetFullPathLabel";
             this.testingDatasetFullPathLabel.Size = new System.Drawing.Size(0, 15);
             this.testingDatasetFullPathLabel.TabIndex = 37;
+            this.testingDatasetFullPathLabel.Visible = false;
             // 
             // trainingDatasetFullPathLabel
             // 
@@ -1038,6 +1040,7 @@ namespace NN_PROGLAN
             this.trainingDatasetFullPathLabel.Name = "trainingDatasetFullPathLabel";
             this.trainingDatasetFullPathLabel.Size = new System.Drawing.Size(0, 15);
             this.trainingDatasetFullPathLabel.TabIndex = 38;
+            this.trainingDatasetFullPathLabel.Visible = false;
             // 
             // messageTray
             // 
