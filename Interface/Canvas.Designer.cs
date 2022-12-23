@@ -40,7 +40,6 @@
             this.frame.Size = new System.Drawing.Size(150, 150);
             this.frame.TabIndex = 0;
             this.frame.TabStop = false;
-            this.frame.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.frame_MouseDoubleClick);
             this.frame.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
             this.frame.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
             this.frame.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUp);

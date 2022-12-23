@@ -16,6 +16,7 @@ using static NN_PROGLAN.Utils.MLOperations;
 using static System.Environment;
 using static System.Drawing.Region;
 using NN_PROGLAN.Interface;
+using System.Text;
 
 namespace NN_PROGLAN
 {
@@ -198,10 +199,6 @@ namespace NN_PROGLAN
             inputLayerTextBox.ExternalLabel = inputLayerLabel;
             hiddenLayerTextBox.ExternalLabel = hiddenLayerLabel;
             outputLayerTextBox.ExternalLabel = outputLayerLabel;
-
-            inputLayerTextBox.Text = 
-                (pictureSize.Width * pictureSize.Height)
-                .ToString();
             //
             // HYPERPARAMETERS MENU PANEL
             //
@@ -229,6 +226,7 @@ namespace NN_PROGLAN
             //
             testButton.Text = "TEST";
             testButton.Type = ButtonType.Rectangle;
+            testButton.Enabled = false;
             testButton.OnMouseClick((s,e) => TestNeuralNet());
             //
             // LOAD MODEL BUTTON
@@ -280,7 +278,12 @@ namespace NN_PROGLAN
             //
             predictInputButton.Text = "PREDICT";
             predictInputButton.Type = ButtonType.Rectangle;
+            predictInputButton.Enabled = false;
             predictInputButton.OnMouseClick((s, e) => PredictCanvasInput());
+            //
+            // OUTPUT CLASS LABEL
+            //
+            outputClassLabel.Text = "";
             //
             // BACKGROUND WORKER X PROGRESS BAR
             //
@@ -334,8 +337,10 @@ namespace NN_PROGLAN
             trainingDataCountLabel.Text = dataset.TrainingDataset.Count.ToString();
             testingDataCountLabel.Text = dataset.TestingDataset.Count.ToString();
 
-            classCount = GetFoldersCount(selectedFilePath.Text);
             outputLayerTextBox.Text = classCount + "";
+            circularBar.Value = 0;
+            classCount = GetFoldersCount(selectedFilePath.Text);
+            iterationsTextBox.Text = trainingDataCountLabel.Text;
         }
         private DatasetType GetSelectedDatasetType()
         {
@@ -446,7 +451,7 @@ namespace NN_PROGLAN
 
             neuralNetwork.Build();
 
-            PrintNeuralNetInfo(structure);
+            //PrintNeuralNetInfo(structure);
             messageTray.Text = "network built";
         }
         //
@@ -459,16 +464,29 @@ namespace NN_PROGLAN
             progressBarBackgroundWorker.RunWorkerAsync(circularBar);
         }
         //
+        // Enables the testing controls after training
+        //
+        private void EnableTesting()
+        {
+            circularBar.Value = 0;
+            accuracyLabel.Text = "";
+            outputClassLabel.Text = "";
+            epochsCountLabel.Text = "";
+            testButton.Enabled = true;
+            predictInputButton.Enabled = true;
+            inputCanvas.Image = inputCanvas.Bitmap;
+            messageTray.Text = "Training Finished.";
+        }
+        //
         // TRAINING MODE
         //
-        private void TrainAccuracy()
+        private string ToFomattedString(int epoch, double loss, double accuracy)
         {
-            //double accuracy = CalculateAccuracy(
-            //    predictions.Select(r => ArgMax(r)).ToArray(),
-            //    dataset.TrainingDataset.Select(d => d.Y).ToArray());
-            //accuracyHeaderLabel.Text = "Training Accuracy";
-            //accuracyLabel.Text = $"{accuracy:N2}%";
-            inputCanvas.Image = inputCanvas.Bitmap;
+            string text = $"Epoch\t\t: {epoch} \r\n" +
+                          $"Loss\t\t: {loss}\r\n" +
+                          $"Accuracy\t\t: {accuracy:N2}%" + 
+                          LineSeparator();
+            return text;
         }
         private void TrainAsync()
         {
@@ -476,10 +494,11 @@ namespace NN_PROGLAN
             predictions = new();
 
             dataset.TrainingDataset.Shuffle();
-
+            double loss;
             circularBar.Maximum = dataset.TrainingDataset.Count;
-            while (currentEpoch <= neuralNetwork.Epochs)
+            while (currentEpoch < neuralNetwork.Epochs)
             {
+                loss = 0;
                 int counter = 0;
                 dataset.TrainingDataset.Shuffle();
                 foreach (Data d in dataset.TrainingDataset.ToList())
@@ -487,29 +506,48 @@ namespace NN_PROGLAN
                     neuralNetwork.ForwardPropagate(d.X);
                     neuralNetwork.BackPropagate(OneHotEncode(d.Y, classCount));
                     neuralNetwork.UpdateWeights();
-                    predictions.Add((double[])neuralNetwork.OutputLayer.Outputs.Clone());
+                    double[] predY = (double[])neuralNetwork.OutputLayer.Outputs.Clone();
+
+                    if (ArgMax(predY) == d.Y)
+                        ThreadHelperClass.SetForeColor(this, outputClassLabel, Color.FromArgb(0, 255, 0));
+                    else
+                        ThreadHelperClass.SetForeColor(this, outputClassLabel, Color.FromArgb(255, 0, 0));
+
                     ThreadHelperClass.SetImage(this, inputCanvas, new Bitmap(new Bitmap(d.File), new Size(150, 150)));
+                    ThreadHelperClass.SetText(this, outputClassLabel, Convert.ToInt32(ArgMax(predY)).ToString());
+
+                    predictions.Add(predY);
+
+                    loss += neuralNetwork.OutputLayer.RoundedError;
                     progressBarBackgroundWorker.ReportProgress(++counter);
                 }
+                currentEpoch++;
 
-                ThreadHelperClass.SetText(this, epochsCountLabel, currentEpoch.ToString());
-
+                double epochLoss = loss / dataset.TrainingDataset.Count;
                 double accuracy = CalculateAccuracy(
                     predictions.Select(r => ArgMax(r)).ToArray(),
                     dataset.TrainingDataset.Select(d => d.Y).ToArray());
 
+                string currentEpochResult = ToFomattedString(currentEpoch, epochLoss, accuracy);
+
+                ThreadHelperClass.SetText(this, epochsCountLabel, currentEpoch.ToString());
+                ThreadHelperClass.AppendText(this, trainingTextBox, currentEpochResult);
+
+                
+
                 ThreadHelperClass.SetText(this, accuracyLabel, $"{accuracy:N2}%");
                 predictions.Clear();
-                currentEpoch++;
             }
         }
         private void TrainNeuralNet()
         {
-            if(neuralNetwork == null)
+
+            messageTray.Text = "Training...";
+            if (neuralNetwork == null)
                 MessageBox.Show("You must build the model first.", "Model not built");
             accuracyHeaderLabel.Text = "Training Accuracy";
             asyncAction = TrainAsync;
-            asyncActionCompleted = TrainAccuracy;
+            asyncActionCompleted = EnableTesting;
 
             progressBarBackgroundWorker.RunWorkerAsync(circularBar);
 
@@ -533,7 +571,26 @@ namespace NN_PROGLAN
                 dataset.TestingDataset.Select(d => d.Y).ToArray());
             accuracyHeaderLabel.Text = "Testing Accuracy";
             accuracyLabel.Text = $"{accuracy:N2}%";
+
+            double[] accuracyPerClass = CalculateAccuracyPerClass(
+                predictions.Select(r => ArgMax(r)).ToArray(),
+                dataset.TestingDataset.Select(d => d.Y).ToArray(), classCount);
+
+            StringBuilder sb = new StringBuilder("ACCURACY PER CLASS:");
+            for (int i = 0; i < accuracyPerClass.Length; i++)
+                sb.AppendFormat($"\r\nClass {i} = {accuracyPerClass[i]:N2} %");
+
+            sb.AppendFormat($"{LineSeparator()}Overall Accuracy = {accuracy:N2}%");
+
+            ThreadHelperClass.AppendText(this, testingTextBox, sb.ToString());
+
+            // reset these controls
+            accuracyLabel.Text = "";
+            outputClassLabel.Text = "";
+            epochsCountLabel.Text = "";
+            circularBar.Value = 0;
             inputCanvas.Image = inputCanvas.Bitmap;
+            messageTray.Text = "Testing Finished.";
         }
         private void TestAsync()
         {
@@ -543,12 +600,20 @@ namespace NN_PROGLAN
                 neuralNetwork.ForwardPropagate(d.X);
                 ThreadHelperClass.SetImage(this, inputCanvas, new Bitmap(new Bitmap(d.File), new Size(150, 150)));
                 double[] predY = (double[])neuralNetwork.OutputLayer.Outputs.Clone();
+
+                if (ArgMax(predY) == d.Y)
+                    ThreadHelperClass.SetForeColor(this, outputClassLabel, Color.FromArgb(0, 255, 0));
+                else
+                    ThreadHelperClass.SetForeColor(this, outputClassLabel, Color.FromArgb(255, 0, 0));
+
+                ThreadHelperClass.SetText(this, outputClassLabel, Convert.ToInt32(ArgMax(predY)).ToString());
                 predictions.Add(predY);
                 progressBarBackgroundWorker.ReportProgress(++counter);
             }
         }
         private void TestNeuralNet()
         {
+            messageTray.Text = "Testing...";
             epochsCountLabel.Text = "0";
             asyncAction = TestAsync;
             asyncActionCompleted = TestAccuracy;
@@ -557,6 +622,9 @@ namespace NN_PROGLAN
             inputCanvas.Image = inputCanvas.Bitmap;
         }
 
-        
+        private string LineSeparator()
+        {
+            return "\r\n================================================\r\n";
+        }   
     }
 }

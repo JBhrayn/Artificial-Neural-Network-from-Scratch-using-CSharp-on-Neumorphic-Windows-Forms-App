@@ -67,7 +67,7 @@ namespace NN_PROGLAN.Neural_Network
             Layers[Layers.Length-1].BackPropOutput(expected);
 
             for (int i = Layers.Length-2; i >= 0; i--)
-                Layers[i].BackPropHiddenLayer(Layers[i+1].Gamma, Layers[i+1].Neurons);
+                Layers[i].BackPropHiddenLayer(Layers[i+1].Gradient, Layers[i+1].Neurons);
 
         }
 

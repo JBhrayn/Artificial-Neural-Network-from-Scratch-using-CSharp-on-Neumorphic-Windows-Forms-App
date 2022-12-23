@@ -31,8 +31,12 @@ namespace NN_PROGLAN
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.title = new System.Windows.Forms.Label();
             this.subPanel = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.testingTextBox = new System.Windows.Forms.TextBox();
             this.matrixButton = new NN_PROGLAN.Interface.Neu.NeuButton();
             this.circularBar = new NN_PROGLAN.Interface.ProgressBar.CircularProgressBar();
@@ -101,6 +105,7 @@ namespace NN_PROGLAN
             this.trainingDatasetFullPathLabel = new System.Windows.Forms.Label();
             this.messageTray = new System.Windows.Forms.Label();
             this.progressBarBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.subPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.penWidthTrackbar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.inputCanvasFrame)).BeginInit();
@@ -126,6 +131,9 @@ namespace NN_PROGLAN
             // 
             this.subPanel.BackgroundImage = global::NN_PROGLAN.Properties.Resources.Subpanel;
             this.subPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.subPanel.Controls.Add(this.label3);
+            this.subPanel.Controls.Add(this.label2);
+            this.subPanel.Controls.Add(this.label1);
             this.subPanel.Controls.Add(this.testingTextBox);
             this.subPanel.Controls.Add(this.matrixButton);
             this.subPanel.Controls.Add(this.circularBar);
@@ -151,6 +159,39 @@ namespace NN_PROGLAN
             this.subPanel.Name = "subPanel";
             this.subPanel.Size = new System.Drawing.Size(859, 857);
             this.subPanel.TabIndex = 1;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Bahnschrift", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label3.ForeColor = System.Drawing.Color.Red;
+            this.label3.Location = new System.Drawing.Point(696, 320);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(51, 18);
+            this.label3.TabIndex = 65;
+            this.label3.Text = "Wrong";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Bahnschrift", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label2.ForeColor = System.Drawing.Color.Lime;
+            this.label2.Location = new System.Drawing.Point(607, 319);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(57, 18);
+            this.label2.TabIndex = 64;
+            this.label2.Text = "Correct";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Bahnschrift", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            this.label1.Location = new System.Drawing.Point(529, 296);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 18);
+            this.label1.TabIndex = 63;
+            this.label1.Text = "Legend:";
             // 
             // testingTextBox
             // 
@@ -228,16 +269,17 @@ namespace NN_PROGLAN
             // 
             // penWidthTrackbar
             // 
+            this.penWidthTrackbar.LargeChange = 2;
             this.penWidthTrackbar.Location = new System.Drawing.Point(37, 83);
-            this.penWidthTrackbar.Maximum = 15;
-            this.penWidthTrackbar.Minimum = 10;
+            this.penWidthTrackbar.Maximum = 20;
+            this.penWidthTrackbar.Minimum = 12;
             this.penWidthTrackbar.Name = "penWidthTrackbar";
             this.penWidthTrackbar.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.penWidthTrackbar.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.penWidthTrackbar.RightToLeftLayout = true;
             this.penWidthTrackbar.Size = new System.Drawing.Size(45, 150);
             this.penWidthTrackbar.TabIndex = 55;
-            this.penWidthTrackbar.Value = 10;
+            this.penWidthTrackbar.Value = 12;
             // 
             // accuracyLabel
             // 
@@ -420,12 +462,12 @@ namespace NN_PROGLAN
             // outputClassLabel
             // 
             this.outputClassLabel.BackColor = System.Drawing.Color.Black;
-            this.outputClassLabel.Font = new System.Drawing.Font("Bahnschrift", 80F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.outputClassLabel.Font = new System.Drawing.Font("Comic Sans MS", 90F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.outputClassLabel.ForeColor = System.Drawing.Color.White;
-            this.outputClassLabel.Location = new System.Drawing.Point(41, 42);
+            this.outputClassLabel.Location = new System.Drawing.Point(40, 33);
+            this.outputClassLabel.Margin = new System.Windows.Forms.Padding(0);
             this.outputClassLabel.Name = "outputClassLabel";
-            this.outputClassLabel.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.outputClassLabel.Size = new System.Drawing.Size(150, 150);
+            this.outputClassLabel.Size = new System.Drawing.Size(160, 160);
             this.outputClassLabel.TabIndex = 45;
             this.outputClassLabel.Text = "0";
             this.outputClassLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -674,6 +716,7 @@ namespace NN_PROGLAN
             this.outputLayerTextBox.BackgroundImage = global::NN_PROGLAN.Properties.Resources.TextBoxDefault;
             this.outputLayerTextBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.outputLayerTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.outputLayerTextBox.Enabled = false;
             this.outputLayerTextBox.ExternalLabel = null;
             this.outputLayerTextBox.isFocused = false;
             this.outputLayerTextBox.isHovered = false;
@@ -706,6 +749,7 @@ namespace NN_PROGLAN
             this.inputLayerTextBox.BackgroundImage = global::NN_PROGLAN.Properties.Resources.TextBoxDefault;
             this.inputLayerTextBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.inputLayerTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.inputLayerTextBox.Enabled = false;
             this.inputLayerTextBox.ExternalLabel = null;
             this.inputLayerTextBox.isFocused = false;
             this.inputLayerTextBox.isHovered = false;
@@ -1134,5 +1178,9 @@ namespace NN_PROGLAN
         private FastReport.DataVisualization.Charting.ChartArea chartArea2;
         private Panel subPanel;
         private TextBox testingTextBox;
+        private ToolTip toolTip;
+        private Label label3;
+        private Label label2;
+        private Label label1;
     }
 }

@@ -103,7 +103,9 @@ namespace NN_PROGLAN.Interface.Neu
 
             isFocused = true;
             isHovered = false;
-            text.Clear();
+            
+            if(text.Text == "0")
+                text.Clear();
             text.Focus();
         }
 

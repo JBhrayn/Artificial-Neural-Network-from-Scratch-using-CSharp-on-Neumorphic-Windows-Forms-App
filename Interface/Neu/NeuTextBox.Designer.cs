@@ -41,7 +41,7 @@
             this.text.Name = "text";
             this.text.Size = new System.Drawing.Size(61, 17);
             this.text.TabIndex = 0;
-            this.text.Text = "1000";
+            this.text.Text = "0";
             this.text.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.text.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
             this.text.MouseEnter += new System.EventHandler(this.OnMouseEnter);

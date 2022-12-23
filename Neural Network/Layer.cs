@@ -16,8 +16,9 @@ namespace NN_PROGLAN.Neural_Network
 
         public Neuron[] Neurons { get; set; }
 
-        public double[] Gamma { get; set; }
-        public double[] Error {get; set; }
+        public double[] Gradient { get; set; }
+        public double[] Error { get; set; }
+        public double RoundedError { get; set; }
 
         public static Random random = new Random();
 
@@ -30,7 +31,7 @@ namespace NN_PROGLAN.Neural_Network
             Outputs = new double[numOfOutputs];
             Neurons = new Neuron[numOfOutputs];
 
-            Gamma = new double[numOfOutputs];
+            Gradient = new double[numOfOutputs];
             Error = new double[numOfOutputs];
 
             InitializeWeights();
@@ -43,7 +44,7 @@ namespace NN_PROGLAN.Neural_Network
                 Neurons[i] = new Neuron() {
                     Weights = new double[numOfInputs],
                     WeightsDelta = new double[numOfInputs],
-                    //Bias = (double)random.NextDouble() - 0.5
+                    Bias = (double)random.NextDouble() - 0.5
                 };
                 for (int j = 0; j < numOfInputs; j++)
                 {
@@ -71,16 +72,21 @@ namespace NN_PROGLAN.Neural_Network
         public void BackPropOutput(double[] expected)
         {
             for (int i = 0; i < numOfOutputs; i++)
+            {
                 Error[i] = Outputs[i] - expected[i];
+                if(Error[i] != 0)
+                    RoundedError = Error[i];
+            }
+
 
             for (int i = 0; i < numOfOutputs; i++)
-                Gamma[i] = Error[i] * Activation.SigmoidPrime(Outputs[i]);
+                Gradient[i] = Error[i] * Activation.SigmoidPrime(Outputs[i]);
 
             for (int i = 0; i < numOfOutputs; i++)
             {
                 for (int j = 0; j < numOfInputs; j++)
                 {
-                    Neurons[i].WeightsDelta[j] = Gamma[i] * Inputs[j];
+                    Neurons[i].WeightsDelta[j] = Gradient[i] * Inputs[j];
                 }
             }
         }
@@ -89,20 +95,19 @@ namespace NN_PROGLAN.Neural_Network
         {
             for (int i = 0; i < numOfOutputs; i++)
             {
-                //Gamma[i] = 0;
                 for (int j = 0; j < gammaForward.Length; j++)
                 {
-                    Gamma[i] += gammaForward[j] * neurons[j].Weights[i];
+                    Gradient[i] += gammaForward[j] * neurons[j].Weights[i];
                 }
 
-                Gamma[i] *= Activation.SigmoidPrime(Outputs[i]);
+                Gradient[i] *= Activation.SigmoidPrime(Outputs[i]);
             }
 
             for (int i = 0; i < numOfOutputs; i++)
             {
                 for (int j = 0; j < numOfInputs; j++)
                 {
-                    Neurons[i].WeightsDelta[j] = Gamma[i] * Inputs[j];
+                    Neurons[i].WeightsDelta[j] = Gradient[i] * Inputs[j];
                 }
             }
 

@@ -38,7 +38,7 @@ namespace NN_PROGLAN.Interface
 
             bitmap = new Bitmap(Width, Height);
             
-            pen = new Pen(Color.White, 5);
+            pen = new Pen(Color.White, 12);
             pen.SetLineCap(LineCap.Round, LineCap.Round, DashCap.Round);
             g = Graphics.FromImage(bitmap);
             g.SmoothingMode = SmoothingMode.AntiAlias;
@@ -75,11 +75,6 @@ namespace NN_PROGLAN.Interface
         private void OnMouseUp(object? sender, MouseEventArgs e)
         {
             penDown = false;
-        }
-
-        private void frame_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            g.Clear(Color.White);
         }
     }
 }

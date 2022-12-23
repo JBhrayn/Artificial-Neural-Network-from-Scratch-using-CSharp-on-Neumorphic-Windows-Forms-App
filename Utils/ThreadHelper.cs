@@ -46,5 +46,32 @@ namespace NN_PROGLAN.Utils
                 canvas.Image = img;
             }
         }
+        delegate void SetForeColorCallback(Form f, Label label, Color color);
+        public static void SetForeColor(Form form, Label label, Color color)
+        {
+            if (label.InvokeRequired)
+            {
+                SetForeColorCallback d = new(SetForeColor);
+                form.Invoke(d, new object[] { form, label, color });
+            }
+            else
+            {
+                label.ForeColor = color;
+            }
+
+        }
+        delegate void AppendTextCallback(Form f, TextBox textBox, String text);
+        public static void AppendText(Form form, TextBox textBox, String text)
+        {
+            if (textBox.InvokeRequired)
+            {
+                AppendTextCallback d = new(AppendText);
+                form.Invoke(d, new object[] { form, textBox, text });
+            }
+            else
+            {
+                textBox.AppendText(text+"\n");
+            }
+        }
     }
 }
