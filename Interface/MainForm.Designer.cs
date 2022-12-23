@@ -34,9 +34,9 @@ namespace NN_PROGLAN
             this.components = new System.ComponentModel.Container();
             this.title = new System.Windows.Forms.Label();
             this.subPanel = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.wrongLabel = new System.Windows.Forms.Label();
+            this.correctLabel = new System.Windows.Forms.Label();
+            this.legendLabel = new System.Windows.Forms.Label();
             this.testingTextBox = new System.Windows.Forms.TextBox();
             this.matrixButton = new NN_PROGLAN.Interface.Neu.NeuButton();
             this.circularBar = new NN_PROGLAN.Interface.ProgressBar.CircularProgressBar();
@@ -69,9 +69,9 @@ namespace NN_PROGLAN
             this.closeButton = new NN_PROGLAN.Interface.Neu.NeuButton();
             this.hParametersMenuPanel = new NN_PROGLAN.Interface.Neu.NeuPanel();
             this.epochsTextBox = new NN_PROGLAN.Interface.Neu.NeuTextBox();
-            this.iterationsTextBox = new NN_PROGLAN.Interface.Neu.NeuTextBox();
+            this.batchSizeTextBox = new NN_PROGLAN.Interface.Neu.NeuTextBox();
             this.learningRateTextBox = new NN_PROGLAN.Interface.Neu.NeuTextBox();
-            this.iterationsLabel = new System.Windows.Forms.Label();
+            this.batchSizeLabel = new System.Windows.Forms.Label();
             this.epochsLabel = new System.Windows.Forms.Label();
             this.learningRateLabel = new System.Windows.Forms.Label();
             this.hParametersMenuPanelLabel = new System.Windows.Forms.Label();
@@ -131,9 +131,9 @@ namespace NN_PROGLAN
             // 
             this.subPanel.BackgroundImage = global::NN_PROGLAN.Properties.Resources.Subpanel;
             this.subPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.subPanel.Controls.Add(this.label3);
-            this.subPanel.Controls.Add(this.label2);
-            this.subPanel.Controls.Add(this.label1);
+            this.subPanel.Controls.Add(this.wrongLabel);
+            this.subPanel.Controls.Add(this.correctLabel);
+            this.subPanel.Controls.Add(this.legendLabel);
             this.subPanel.Controls.Add(this.testingTextBox);
             this.subPanel.Controls.Add(this.matrixButton);
             this.subPanel.Controls.Add(this.circularBar);
@@ -160,38 +160,38 @@ namespace NN_PROGLAN
             this.subPanel.Size = new System.Drawing.Size(859, 857);
             this.subPanel.TabIndex = 1;
             // 
-            // label3
+            // wrongLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Bahnschrift", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label3.ForeColor = System.Drawing.Color.Red;
-            this.label3.Location = new System.Drawing.Point(696, 320);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 18);
-            this.label3.TabIndex = 65;
-            this.label3.Text = "Wrong";
+            this.wrongLabel.AutoSize = true;
+            this.wrongLabel.Font = new System.Drawing.Font("Bahnschrift", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.wrongLabel.ForeColor = System.Drawing.Color.Red;
+            this.wrongLabel.Location = new System.Drawing.Point(696, 320);
+            this.wrongLabel.Name = "wrongLabel";
+            this.wrongLabel.Size = new System.Drawing.Size(51, 18);
+            this.wrongLabel.TabIndex = 65;
+            this.wrongLabel.Text = "Wrong";
             // 
-            // label2
+            // correctLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Bahnschrift", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.ForeColor = System.Drawing.Color.Lime;
-            this.label2.Location = new System.Drawing.Point(607, 319);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 18);
-            this.label2.TabIndex = 64;
-            this.label2.Text = "Correct";
+            this.correctLabel.AutoSize = true;
+            this.correctLabel.Font = new System.Drawing.Font("Bahnschrift", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.correctLabel.ForeColor = System.Drawing.Color.Lime;
+            this.correctLabel.Location = new System.Drawing.Point(607, 319);
+            this.correctLabel.Name = "correctLabel";
+            this.correctLabel.Size = new System.Drawing.Size(57, 18);
+            this.correctLabel.TabIndex = 64;
+            this.correctLabel.Text = "Correct";
             // 
-            // label1
+            // legendLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Bahnschrift", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            this.label1.Location = new System.Drawing.Point(529, 296);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 18);
-            this.label1.TabIndex = 63;
-            this.label1.Text = "Legend:";
+            this.legendLabel.AutoSize = true;
+            this.legendLabel.Font = new System.Drawing.Font("Bahnschrift", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.legendLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            this.legendLabel.Location = new System.Drawing.Point(529, 296);
+            this.legendLabel.Name = "legendLabel";
+            this.legendLabel.Size = new System.Drawing.Size(60, 18);
+            this.legendLabel.TabIndex = 63;
+            this.legendLabel.Text = "Legend:";
             // 
             // testingTextBox
             // 
@@ -578,9 +578,9 @@ namespace NN_PROGLAN
             this.hParametersMenuPanel.BackgroundImage = global::NN_PROGLAN.Properties.Resources.MenuPanelDefault;
             this.hParametersMenuPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.hParametersMenuPanel.Controls.Add(this.epochsTextBox);
-            this.hParametersMenuPanel.Controls.Add(this.iterationsTextBox);
+            this.hParametersMenuPanel.Controls.Add(this.batchSizeTextBox);
             this.hParametersMenuPanel.Controls.Add(this.learningRateTextBox);
-            this.hParametersMenuPanel.Controls.Add(this.iterationsLabel);
+            this.hParametersMenuPanel.Controls.Add(this.batchSizeLabel);
             this.hParametersMenuPanel.Controls.Add(this.epochsLabel);
             this.hParametersMenuPanel.Controls.Add(this.learningRateLabel);
             this.hParametersMenuPanel.Controls.Add(this.hParametersMenuPanelLabel);
@@ -609,22 +609,22 @@ namespace NN_PROGLAN
             this.epochsTextBox.TabIndex = 50;
             this.epochsTextBox.TabStop = false;
             // 
-            // iterationsTextBox
+            // batchSizeTextBox
             // 
-            this.iterationsTextBox.BackColor = System.Drawing.Color.Transparent;
-            this.iterationsTextBox.BackgroundImage = global::NN_PROGLAN.Properties.Resources.TextBoxDefault;
-            this.iterationsTextBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.iterationsTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.iterationsTextBox.Enabled = false;
-            this.iterationsTextBox.ExternalLabel = null;
-            this.iterationsTextBox.isFocused = false;
-            this.iterationsTextBox.isHovered = false;
-            this.iterationsTextBox.Location = new System.Drawing.Point(100, 136);
-            this.iterationsTextBox.Name = "iterationsTextBox";
-            this.iterationsTextBox.ParentPanel = null;
-            this.iterationsTextBox.Size = new System.Drawing.Size(90, 40);
-            this.iterationsTextBox.TabIndex = 49;
-            this.iterationsTextBox.TabStop = false;
+            this.batchSizeTextBox.BackColor = System.Drawing.Color.Transparent;
+            this.batchSizeTextBox.BackgroundImage = global::NN_PROGLAN.Properties.Resources.TextBoxDefault;
+            this.batchSizeTextBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.batchSizeTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.batchSizeTextBox.Enabled = false;
+            this.batchSizeTextBox.ExternalLabel = null;
+            this.batchSizeTextBox.isFocused = false;
+            this.batchSizeTextBox.isHovered = false;
+            this.batchSizeTextBox.Location = new System.Drawing.Point(100, 136);
+            this.batchSizeTextBox.Name = "batchSizeTextBox";
+            this.batchSizeTextBox.ParentPanel = null;
+            this.batchSizeTextBox.Size = new System.Drawing.Size(90, 40);
+            this.batchSizeTextBox.TabIndex = 49;
+            this.batchSizeTextBox.TabStop = false;
             // 
             // learningRateTextBox
             // 
@@ -642,16 +642,16 @@ namespace NN_PROGLAN
             this.learningRateTextBox.TabIndex = 48;
             this.learningRateTextBox.TabStop = false;
             // 
-            // iterationsLabel
+            // batchSizeLabel
             // 
-            this.iterationsLabel.Font = new System.Drawing.Font("Bahnschrift", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.iterationsLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            this.iterationsLabel.Location = new System.Drawing.Point(34, 136);
-            this.iterationsLabel.Name = "iterationsLabel";
-            this.iterationsLabel.Size = new System.Drawing.Size(63, 40);
-            this.iterationsLabel.TabIndex = 27;
-            this.iterationsLabel.Text = "Iterations";
-            this.iterationsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.batchSizeLabel.Font = new System.Drawing.Font("Bahnschrift", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.batchSizeLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            this.batchSizeLabel.Location = new System.Drawing.Point(34, 136);
+            this.batchSizeLabel.Name = "batchSizeLabel";
+            this.batchSizeLabel.Size = new System.Drawing.Size(63, 40);
+            this.batchSizeLabel.TabIndex = 27;
+            this.batchSizeLabel.Text = "Batch Size";
+            this.batchSizeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // epochsLabel
             // 
@@ -1119,9 +1119,9 @@ namespace NN_PROGLAN
         private Interface.Neu.NeuButton createNetworkBtn;
         private Interface.Neu.NeuPanel hParametersMenuPanel;
         private Interface.Neu.NeuTextBox epochsTextBox;
-        private Interface.Neu.NeuTextBox iterationsTextBox;
+        private Interface.Neu.NeuTextBox batchSizeTextBox;
         private Interface.Neu.NeuTextBox learningRateTextBox;
-        private Label iterationsLabel;
+        private Label batchSizeLabel;
         private Label epochsLabel;
         private Label learningRateLabel;
         private Label hParametersMenuPanelLabel;
@@ -1182,8 +1182,8 @@ namespace NN_PROGLAN
         private Panel subPanel;
         private TextBox testingTextBox;
         private ToolTip toolTip;
-        private Label label3;
-        private Label label2;
-        private Label label1;
+        private Label wrongLabel;
+        private Label correctLabel;
+        private Label legendLabel;
     }
 }

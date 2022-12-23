@@ -80,7 +80,7 @@ namespace NN_PROGLAN
         {
             get
             {
-                return Int32.Parse(iterationsTextBox.Text);
+                return Int32.Parse(batchSizeTextBox.Text);
             }
         }
         public double LearningRate
@@ -206,8 +206,9 @@ namespace NN_PROGLAN
             hParametersMenuPanel.SetHandlers();
 
             learningRateTextBox.ExternalLabel = learningRateLabel;
-            iterationsTextBox.ExternalLabel = iterationsLabel;
+            batchSizeTextBox.ExternalLabel = batchSizeLabel;
             epochsTextBox.ExternalLabel = epochsLabel;
+            batchSizeTextBox.Text = "1";
             //
             // CREATE NETWORK BUTTON
             //
@@ -284,6 +285,7 @@ namespace NN_PROGLAN
             // OUTPUT CLASS LABEL
             //
             outputClassLabel.Text = "";
+            ShowLegend(false);
             //
             // BACKGROUND WORKER X PROGRESS BAR
             //
@@ -340,7 +342,6 @@ namespace NN_PROGLAN
             outputLayerTextBox.Text = classCount + "";
             circularBar.Value = 0;
             classCount = GetFoldersCount(selectedFilePath.Text);
-            iterationsTextBox.Text = trainingDataCountLabel.Text;
         }
         private DatasetType GetSelectedDatasetType()
         {
@@ -468,6 +469,7 @@ namespace NN_PROGLAN
         //
         private void EnableTesting()
         {
+            ShowLegend(false);
             circularBar.Value = 0;
             accuracyLabel.Text = "";
             outputClassLabel.Text = "";
@@ -541,7 +543,7 @@ namespace NN_PROGLAN
         }
         private void TrainNeuralNet()
         {
-
+            ShowLegend(true);
             messageTray.Text = "Training...";
             if (neuralNetwork == null)
                 MessageBox.Show("You must build the model first.", "Model not built");
@@ -554,6 +556,8 @@ namespace NN_PROGLAN
         }
         private void PredictCanvasInput()
         {
+            ShowLegend(false);
+            outputClassLabel.ForeColor = Color.FromArgb(150, 150, 150);
             outputClassLabel.Text =
                 neuralNetwork.Predict(
                     new Bitmap(inputCanvas.Bitmap, pictureSize)
@@ -585,6 +589,7 @@ namespace NN_PROGLAN
             ThreadHelperClass.AppendText(this, testingTextBox, sb.ToString());
 
             // reset these controls
+            ShowLegend(false);
             accuracyLabel.Text = "";
             outputClassLabel.Text = "";
             epochsCountLabel.Text = "";
@@ -613,6 +618,7 @@ namespace NN_PROGLAN
         }
         private void TestNeuralNet()
         {
+            ShowLegend(true);
             messageTray.Text = "Testing...";
             epochsCountLabel.Text = "0";
             asyncAction = TestAsync;
@@ -625,6 +631,13 @@ namespace NN_PROGLAN
         private string LineSeparator()
         {
             return "\r\n================================================\r\n";
-        }   
+        }
+
+        private void ShowLegend(bool show)
+        {
+            legendLabel.Visible = show;
+            correctLabel.Visible = show;
+            wrongLabel.Visible = show;
+        }
     }
 }
