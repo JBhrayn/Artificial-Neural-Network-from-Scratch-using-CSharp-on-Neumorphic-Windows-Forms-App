@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NN_PROGLAN.Utils;
 
 namespace NN_PROGLAN.Neural_Network
 {
@@ -44,11 +45,11 @@ namespace NN_PROGLAN.Neural_Network
                 Neurons[i] = new Neuron() {
                     Weights = new double[numOfInputs],
                     WeightsDelta = new double[numOfInputs],
-                    Bias = (double)random.NextDouble() - 0.5
+                    Bias = 0
                 };
                 for (int j = 0; j < numOfInputs; j++)
                 {
-                    Neurons[i].Weights[j] = (double)random.NextDouble() - 0.5; 
+                    Neurons[i].Weights[j] = (double)random.NextDouble() - 0.5;
                 }
             }
         }
@@ -74,10 +75,9 @@ namespace NN_PROGLAN.Neural_Network
             for (int i = 0; i < numOfOutputs; i++)
             {
                 Error[i] = Outputs[i] - expected[i];
-                if(Error[i] != 0)
+                if (Error[i] != 0)
                     RoundedError = Error[i];
             }
-
 
             for (int i = 0; i < numOfOutputs; i++)
                 Gradient[i] = Error[i] * Activation.SigmoidPrime(Outputs[i]);
@@ -88,16 +88,17 @@ namespace NN_PROGLAN.Neural_Network
                 {
                     Neurons[i].WeightsDelta[j] = Gradient[i] * Inputs[j];
                 }
+                //Neurons[i].Bias = Gradient[i];
             }
         }
 
-        public void BackPropHiddenLayer(double[] gammaForward, Neuron[] neurons)
+        public void BackPropHiddenLayer(double[] gradientForward, Neuron[] neurons)
         {
             for (int i = 0; i < numOfOutputs; i++)
             {
-                for (int j = 0; j < gammaForward.Length; j++)
+                for (int j = 0; j < gradientForward.Length; j++)
                 {
-                    Gradient[i] += gammaForward[j] * neurons[j].Weights[i];
+                    Gradient[i] += gradientForward[j] * neurons[j].Weights[i];
                 }
 
                 Gradient[i] *= Activation.SigmoidPrime(Outputs[i]);
@@ -108,7 +109,9 @@ namespace NN_PROGLAN.Neural_Network
                 for (int j = 0; j < numOfInputs; j++)
                 {
                     Neurons[i].WeightsDelta[j] = Gradient[i] * Inputs[j];
+                    
                 }
+                //Neurons[i].BiasDelta = Gradient[i];
             }
 
         }
@@ -119,7 +122,8 @@ namespace NN_PROGLAN.Neural_Network
             {
                 for (int j = 0; j < numOfInputs; j++)
                 {
-                    Neurons[i].Weights[j] -= Neurons[i].WeightsDelta[j] * learningRate; 
+                    Neurons[i].Weights[j] -= Neurons[i].WeightsDelta[j] * learningRate;
+                    //Neurons[i].Bias = Neurons[i].BiasDelta * learningRate;
                 }
             }
         }

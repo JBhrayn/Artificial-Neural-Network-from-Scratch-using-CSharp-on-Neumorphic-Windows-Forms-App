@@ -304,6 +304,8 @@ namespace NN_PROGLAN
                 hoveredIcon: Properties.Resources.CloseIconHovered,
                 clickedIcon: Properties.Resources.CloseIconHovered);
             closeButton.OnMouseClick((s, e) => Application.Exit());
+
+            ShowLabels(false);
         }
         //
         // DIALOG BOX
@@ -339,9 +341,9 @@ namespace NN_PROGLAN
             trainingDataCountLabel.Text = dataset.TrainingDataset.Count.ToString();
             testingDataCountLabel.Text = dataset.TestingDataset.Count.ToString();
 
+            classCount = GetFoldersCount(selectedFilePath.Text);
             outputLayerTextBox.Text = classCount + "";
             circularBar.Value = 0;
-            classCount = GetFoldersCount(selectedFilePath.Text);
         }
         private DatasetType GetSelectedDatasetType()
         {
@@ -470,6 +472,7 @@ namespace NN_PROGLAN
         private void EnableTesting()
         {
             ShowLegend(false);
+            ShowLabels(false);
             circularBar.Value = 0;
             accuracyLabel.Text = "";
             outputClassLabel.Text = "";
@@ -544,6 +547,7 @@ namespace NN_PROGLAN
         private void TrainNeuralNet()
         {
             ShowLegend(true);
+            ShowLabels(true);
             messageTray.Text = "Training...";
             if (neuralNetwork == null)
                 MessageBox.Show("You must build the model first.", "Model not built");
@@ -557,7 +561,8 @@ namespace NN_PROGLAN
         private void PredictCanvasInput()
         {
             ShowLegend(false);
-            outputClassLabel.ForeColor = Color.FromArgb(150, 150, 150);
+            ShowLabels(false);
+            outputClassLabel.ForeColor = Color.White;
             outputClassLabel.Text =
                 neuralNetwork.Predict(
                     new Bitmap(inputCanvas.Bitmap, pictureSize)
@@ -590,6 +595,7 @@ namespace NN_PROGLAN
 
             // reset these controls
             ShowLegend(false);
+            ShowLabels(false);
             accuracyLabel.Text = "";
             outputClassLabel.Text = "";
             epochsCountLabel.Text = "";
@@ -618,7 +624,13 @@ namespace NN_PROGLAN
         }
         private void TestNeuralNet()
         {
+            if( dataset.TestingDataset.Count == 0)
+            {
+                MessageBox.Show("You haven't added a testing dataset yet.", "Test Dataset Not Found");
+                return;
+            }
             ShowLegend(true);
+            ShowLabels(true);
             messageTray.Text = "Testing...";
             epochsCountLabel.Text = "0";
             asyncAction = TestAsync;
@@ -638,6 +650,14 @@ namespace NN_PROGLAN
             legendLabel.Visible = show;
             correctLabel.Visible = show;
             wrongLabel.Visible = show;
+        }
+
+        private void ShowLabels(bool show)
+        {
+            epochsHeaderLabel.Visible = show;
+            epochsCountLabel.Visible = show;
+            accuracyHeaderLabel.Visible = show;
+            accuracyLabel.Visible = show;
         }
     }
 }

@@ -18,16 +18,11 @@ namespace NN_PROGLAN.Neural_Network
 
         public Layer[] Layers { get; set; }
 
-        public Layer OutputLayer { get { return Layers[Layers.Length - 1]; } }
+        public Layer OutputLayer { get { return Layers[^1]; } }
 
         public MultilayerPerceptron()
         {
 
-        }
-
-        public MultilayerPerceptron Dense()
-        {
-            return this;
         }
 
         public MultilayerPerceptron(int[] structure)
@@ -37,7 +32,7 @@ namespace NN_PROGLAN.Neural_Network
 
             Layers = new Layer[structure.Length-1];
 
-            for (int i = 0; i < this.Layers.Length; i++)
+            for (int i = 0; i < Layers.Length; i++)
                 Layers[i] = new Layer(structure[i], structure[i+1]);
 
         }
@@ -48,7 +43,7 @@ namespace NN_PROGLAN.Neural_Network
 
             Layers = new Layer[Structure.Length - 1];
 
-            for (int i = 0; i < this.Layers.Length; i++)
+            for (int i = 0; i < Layers.Length; i++)
                 Layers[i] = new Layer(Structure[i], Structure[i + 1]);
 
         }
@@ -59,16 +54,15 @@ namespace NN_PROGLAN.Neural_Network
             for (int i = 1; i < Layers.Length; i++)
                 Layers[i].ForwardPropagate(Layers[i - 1].Outputs);
 
-            return Layers[Layers.Length - 1].Outputs;
+            return Layers[^1].Outputs;
         }
 
         public void BackPropagate(double[] expected)
         {
-            Layers[Layers.Length-1].BackPropOutput(expected);
+            Layers[^1].BackPropOutput(expected);
 
             for (int i = Layers.Length-2; i >= 0; i--)
                 Layers[i].BackPropHiddenLayer(Layers[i+1].Gradient, Layers[i+1].Neurons);
-
         }
 
         public void UpdateWeights()

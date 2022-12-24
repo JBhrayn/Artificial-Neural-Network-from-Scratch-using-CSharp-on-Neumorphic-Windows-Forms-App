@@ -202,6 +202,7 @@ namespace NN_PROGLAN
             this.testingTextBox.Location = new System.Drawing.Point(461, 551);
             this.testingTextBox.Multiline = true;
             this.testingTextBox.Name = "testingTextBox";
+            this.testingTextBox.ReadOnly = true;
             this.testingTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.testingTextBox.Size = new System.Drawing.Size(363, 260);
             this.testingTextBox.TabIndex = 62;
@@ -250,6 +251,7 @@ namespace NN_PROGLAN
             this.trainingTextBox.Location = new System.Drawing.Point(35, 551);
             this.trainingTextBox.Multiline = true;
             this.trainingTextBox.Name = "trainingTextBox";
+            this.trainingTextBox.ReadOnly = true;
             this.trainingTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.trainingTextBox.Size = new System.Drawing.Size(363, 260);
             this.trainingTextBox.TabIndex = 59;

@@ -28,5 +28,19 @@ namespace NN_PROGLAN.Neural_Network
             return Sigmoid(x) * (1 - Sigmoid(x));
         }
 
+        public static double[] SoftMax(double[] predictions)
+        {
+            double[] softMaxed = new double[predictions.Length];
+
+            for (int i = 0; i < predictions.Length; i++)
+                softMaxed[i] = Math.Pow(Math.E, predictions[i]);
+
+            double sum = softMaxed.Sum();
+
+            for (int i = 0; i < softMaxed.Length; i++)
+                softMaxed[i] = softMaxed[i] / sum;
+
+            return softMaxed;
+        }
     }
 }
