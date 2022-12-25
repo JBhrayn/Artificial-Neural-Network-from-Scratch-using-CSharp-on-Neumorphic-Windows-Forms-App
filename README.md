@@ -4,7 +4,7 @@ This project consists of an implementation of a Multi-Layer Perceptron, along wi
 *Training with 60000 training samples and 10000 testing samples from MNIST Handwritten DIGITS*
 ![](https://github.com/JBhrayn/NN_PROGLAN/blob/main/Resources/Test/On%20Training.png)
 
-Stochastic Gradient Descent will be used as the optimization algorithm for built models, and the training dataset will be shuffled at each iteration to lessen the likelihood of overfitting.
+Stochastic Gradient Descent will be used as the optimization algorithm for built models, and the training dataset will be shuffled every epoch to lessen the likelihood of overfitting.
 
 *Here's a training and testing result, with 40000 training samples and 8000 testing samples from MNIST Handwritten DIGITS*
 ![A model trained and tested with MNIST Handwritten Dataset](https://github.com/JBhrayn/NN_PROGLAN/blob/main/Resources/Test/Manual%20Testing%20After%20Training%20and%20Testing.png)
