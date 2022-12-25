@@ -15,16 +15,6 @@ namespace NN_PROGLAN.Neural_Network
         public double BiasDelta { get; set; }
         public double Output { get; set; }
 
-        public Neuron()
-        {
-            
-        }
-
-        public Neuron(double[] weights, double bias)
-        {
-            Array.Copy(weights, this.Weights, weights.Length);
-            //this.Bias = bias;
-        }
-
+        public Neuron() { }
     }
 }

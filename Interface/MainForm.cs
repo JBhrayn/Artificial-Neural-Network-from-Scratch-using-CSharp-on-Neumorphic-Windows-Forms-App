@@ -437,6 +437,23 @@ namespace NN_PROGLAN
                 $"Learning Rate: {LearningRate}\r\n" +
                 $"Epochs: {Epochs}\r\n");
         }
+        private bool AreLayersComplete()
+        {
+            if (neuralNetwork.Structure.Any() && HiddenLayersNodes.Max() != 0) 
+                return true;
+
+            MessageBox.Show("The model has incomplete or no layers ", "Layer/s not initialized");
+            return false;
+        }
+
+        private bool AreHyperparametersValid()
+        {
+            if (LearningRate != 0.0 || Epochs != 0) return true;
+
+           MessageBox.Show("Learning Rate and Epochs must not be zero (0)", "Hyperparamter/s not initialized");
+           return false;
+        }
+
         private void BuildNeuralNet()
         {
             List<int> structure = new();
@@ -451,6 +468,8 @@ namespace NN_PROGLAN
                 LearningRate = LearningRate,
                 Structure = structure.ToArray()
             };
+
+            if (!(AreLayersComplete() && AreHyperparametersValid())) return;
 
             neuralNetwork.Build();
 
@@ -493,6 +512,20 @@ namespace NN_PROGLAN
                           LineSeparator();
             return text;
         }
+        // FOR MONITORING PURPOSES ONLY
+        public void ShowCanvasMonitoring(double[] predicted, Data d)
+        {
+            double yPred = ArgMax(predicted);
+            if (yPred == d.Y)
+                ThreadHelperClass.SetForeColor(this, outputClassLabel, Color.FromArgb(0, 255, 0));
+            else
+                ThreadHelperClass.SetForeColor(this, outputClassLabel, Color.FromArgb(255, 0, 0));
+
+            ThreadHelperClass.SetImage(this, inputCanvas, new Bitmap(new Bitmap(d.File), new Size(150, 150)));
+            ThreadHelperClass.SetText(this, outputClassLabel, Convert.ToInt32(yPred).ToString());
+
+        }
+
         private void TrainAsync()
         {
             int currentEpoch = 0;
@@ -510,16 +543,10 @@ namespace NN_PROGLAN
                 {
                     neuralNetwork.ForwardPropagate(d.X);
                     neuralNetwork.BackPropagate(OneHotEncode(d.Y, classCount));
-                    neuralNetwork.UpdateWeights();
+                    neuralNetwork.UpdateWeightsAndBiases();
                     double[] predY = (double[])neuralNetwork.OutputLayer.Outputs.Clone();
 
-                    if (ArgMax(predY) == d.Y)
-                        ThreadHelperClass.SetForeColor(this, outputClassLabel, Color.FromArgb(0, 255, 0));
-                    else
-                        ThreadHelperClass.SetForeColor(this, outputClassLabel, Color.FromArgb(255, 0, 0));
-
-                    ThreadHelperClass.SetImage(this, inputCanvas, new Bitmap(new Bitmap(d.File), new Size(150, 150)));
-                    ThreadHelperClass.SetText(this, outputClassLabel, Convert.ToInt32(ArgMax(predY)).ToString());
+                    ShowCanvasMonitoring(predY, d);
 
                     predictions.Add(predY);
 
