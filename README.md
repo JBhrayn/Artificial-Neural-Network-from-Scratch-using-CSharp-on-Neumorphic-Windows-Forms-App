@@ -17,4 +17,6 @@ I deliberately disabled the following textboxes:
 **• Output Layer Nodes**, since its value will be automatically filled according to the number of category or distinct labels found in the given dataset.  
 **• Batch Size**, since this model uses Stochastic Gradient Descent as its optimization algorithm.  
 
+I haven't added an input validation on the textboxes yet, so please provide an appropriate input for the enabled textboxes:
+
 Also, the feature for saving and loading models is not yet functional, and much of the code probably needs refactoring.
