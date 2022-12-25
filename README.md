@@ -1,10 +1,12 @@
 # ANN-MLP (from scratch) - a school project
-This project consists of an implementation of a Multi-Layer Perceptron, along with a User Interface which provides functionality for creating, training, and testing its models.  
+This project consists of an implementation of a Multi-Layer Perceptron, along with a User Interface which provides functionality for creating, training, and testing its models.
+
+Training with 60000 training samples and 10000 testing samples from MNIST Handwritten DIGITS
 ![](https://github.com/JBhrayn/NN_PROGLAN/blob/main/Resources/NewFolder/On%20Training.png)
 
 Stochastic Gradient Descent will be used as the optimization algorithm for built models, and the training dataset will be shuffled at each iteration to lessen the likelihood of overfitting.
 
-For now, the implementation does not have a bias term. Even so, by tuning the hyperparameters, one can create a remarkable model as shown below:  
+Here's a training and testing result, with 40000 training samples and 8000 testing samples from MNIST Handwritten DIGITS
 ![A model trained and tested with MNIST Handwritten Dataset](https://github.com/JBhrayn/NN_PROGLAN/blob/main/Resources/NewFolder/Manual%20Testing%20After%20Training%20and%20Testing.png)
 
 ## NOTE
