@@ -19,4 +19,7 @@ I deliberately disabled the following textboxes:
 
 I haven't added an input validation on the textboxes yet, so please provide an appropriate input for the enabled textboxes:
 
+For now, when working with a different dataset e.g. MNIST Fashion Dataset, the folder name of unique classes must be indices i.e. 0,1,2...n number of unique classes.
+
 Also, the feature for saving and loading models is not yet functional, and much of the code probably needs refactoring.
+
